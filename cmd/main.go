@@ -17,8 +17,9 @@ func main() {
 
 	MuxHandler := http.NewServeMux()
 	MuxHandler.HandleFunc("/showorder/", handler.ShowOrder)
-	MuxHandler.HandleFunc("/showorder/", handler.MakeOrder)
+	MuxHandler.HandleFunc("/makeorder/", handler.MakeOrder)
 	MuxHandler.HandleFunc("/", handler.ShowHomePage)
+	MuxHandler.HandleFunc("/reqhandlertest/", handler.ShowRequestTestHandler)
 
 	webServer := http.Server{
 		Addr:    ":8080",

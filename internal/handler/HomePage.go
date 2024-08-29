@@ -8,3 +8,7 @@ import (
 func ShowHomePage(response http.ResponseWriter, request *http.Request) {
 	fmt.Fprintf(response, "Welcome to the home page!")
 }
+
+func UpdateYourNameOnHomePage(response http.ResponseWriter, request *http.Request) {
+
+}

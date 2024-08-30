@@ -18,6 +18,7 @@ func ShowOrder(response http.ResponseWriter, request *http.Request) {
 	if request.Method != "GET" {
 		response.WriteHeader(http.StatusMethodNotAllowed)
 		fmt.Fprintln(response, "error: requested method is not allowed")
+		return
 	}
 	fmt.Fprintln(response, "this page desired to be used in displaying the order")
 }
@@ -26,6 +27,7 @@ func MakeANewOrder(response http.ResponseWriter, request *http.Request) {
 	if request.Method != "POST" {
 		response.WriteHeader(http.StatusMethodNotAllowed)
 		response.Write([]byte(strconv.Itoa(http.StatusMethodNotAllowed) + ": requested method is not allowed"))
+		return
 	}
 	var orderList []order
 	newOrder := order{

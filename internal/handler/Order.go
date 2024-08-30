@@ -30,6 +30,7 @@ func MakeANewOrder(response http.ResponseWriter, request *http.Request) {
 		return
 	}
 	var orderList []order
+	var orderListJSON string
 	newOrder := order{
 		Id:        "A",
 		ItemName:  "1kg Egg",

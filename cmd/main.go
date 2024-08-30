@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"net/http"
 	"nof-go-web-server/internal/handler"
 )
@@ -25,6 +26,7 @@ func main() {
 		Addr:    ":8080",
 		Handler: MuxHandler,
 	}
+	fmt.Println("the server might be running at " + "http://localhost" + ":8080")
 	err := webServer.ListenAndServe()
 	if err != nil {
 		panic(err)

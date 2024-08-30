@@ -15,6 +15,4 @@ func ShowRequestTestHandler(response http.ResponseWriter, request *http.Request)
 	} else {
 		fmt.Fprintf(response, "query=%s", query)
 	}
-
-	wellEncodedQuery := request.URL.Query().Encode("query_data2")
 }

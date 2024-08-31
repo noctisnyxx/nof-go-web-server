@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"encoding/json"
 	"fmt"
 	"net/http"
 	"strconv"
@@ -32,15 +33,18 @@ func MakeANewOrder(response http.ResponseWriter, request *http.Request) {
 	var orderList []order
 	var orderListJSON string
 	newOrder := order{
-		Id:        "A",
-		ItemName:  "1kg Egg",
-		Price:     2.00,
+		Id:        "sampleId",
+		ItemName:  "sampleItemName",
+		Price:     0.00,
 		CreatedAt: time.Now(),
 	}
 
 	orderList = append(orderList, newOrder)
+	orderListMarshaled, _ := json.Marshal(orderList)
+	orderListJSON = string(orderListMarshaled)
 
 	fmt.Fprintln(response, newOrder)
 	fmt.Println(newOrder)
 	fmt.Println(orderList)
+	fmt.Println(orderListJSON)
 }

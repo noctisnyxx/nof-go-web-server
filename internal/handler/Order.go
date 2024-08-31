@@ -42,9 +42,10 @@ func MakeANewOrder(response http.ResponseWriter, request *http.Request) {
 	orderList = append(orderList, newOrder)
 	orderListMarshaled, _ := json.Marshal(orderList)
 	orderListJSON = string(orderListMarshaled)
+	response.Write(orderListMarshaled)
 
 	fmt.Fprintln(response, newOrder)
 	fmt.Println(newOrder)
-	fmt.Println(orderList)
 	fmt.Println(orderListJSON)
+	// fmt.Fprintln(response, orderListJSON)
 }

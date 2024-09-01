@@ -77,20 +77,27 @@ func AddItem(response http.ResponseWriter, request *http.Request) {
 		byteData, err := os.ReadFile(storage_path)
 		if err != nil {
 			fmt.Println(err.Error())
-			response.WriteHeader(http.StatusNotModified)
+			response.WriteHeader(http.StatusNotFound)
 			return
 		}
 		json.Unmarshal(byteData, &itemList)
-		fmt.Println(itemList)
 		for i, currentData := range itemList {
-			// fmt.Println(i, v)
 			if item.Id == currentData.Id {
-				fmt.Println("found ", currentData.Id)
+				if item == currentData {
+					fmt.Println("There is no update, the previous and the new are the same.")
+					response.WriteHeader(http.StatusNotFound)
+					return
+				}
 				itemList[i] = item
+				data, _ := json.MarshalIndent(itemList, " ", " ")
+				file, _ := os.OpenFile(storage_path, os.O_RDWR, 0644)
+				file.Write(data)
+				return
 			}
 		}
-		data, _ := json.MarshalIndent(itemList, " ", " ")
-		file, _ := os.OpenFile(storage_path, os.O_RDWR, 0644)
-		file.Write(data)
+		response.WriteHeader(http.StatusNotFound)
+
+		fmt.Fprintln(response, "Data is not found")
+		fmt.Println("Sampe sini ga ya")
 	}
 }

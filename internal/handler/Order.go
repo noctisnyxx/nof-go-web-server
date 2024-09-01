@@ -47,5 +47,4 @@ func MakeANewOrder(response http.ResponseWriter, request *http.Request) {
 	fmt.Fprintln(response, newOrder)
 	fmt.Println(newOrder)
 	fmt.Println(orderListJSON)
-	// fmt.Fprintln(response, orderListJSON)
 }

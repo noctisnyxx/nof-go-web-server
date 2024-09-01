@@ -5,13 +5,16 @@ import (
 	"fmt"
 	"net/http"
 	"os"
+	"strconv"
 )
 
 type Item struct {
-	Id          string `json:"id"`
-	Name        string `json:"name"`
-	Description string `json:"description"`
-	Image       string `json:"picture_link"`
+	Id          string  `json:"id"`
+	Name        string  `json:"name"`
+	Category    string  `json:"category"`
+	Price       float64 `json:"price"`
+	Description string  `json:"description"`
+	Image       string  `json:"picture_link"`
 }
 
 var itemList []Item
@@ -29,14 +32,16 @@ func AddItem(response http.ResponseWriter, request *http.Request) {
 		defer file.Close()
 
 	}
-
 	switch request.Method {
-	case "POST":
+	case http.MethodPost:
+		price, _ := strconv.ParseFloat(request.FormValue("Price"), 64)
 		item := Item{
-			request.FormValue("Id"),
-			request.FormValue("Name"),
-			request.FormValue("Description"),
-			request.FormValue("Image"),
+			Id:          request.FormValue("Id"),
+			Name:        request.FormValue("Name"),
+			Category:    request.FormValue("Category"),
+			Price:       price,
+			Description: request.FormValue("Description"),
+			Image:       request.FormValue("Image"),
 		}
 
 		byteData, err := os.ReadFile(storage_path)
@@ -66,12 +71,15 @@ func AddItem(response http.ResponseWriter, request *http.Request) {
 		data, _ := json.MarshalIndent(itemList, " ", " ")
 		file.Write(data)
 
-	case "PUT":
+	case http.MethodPut:
+		price, _ := strconv.ParseFloat(request.FormValue("Price"), 64)
 		item := Item{
-			request.FormValue("Id"),
-			request.FormValue("Name"),
-			request.FormValue("Description"),
-			request.FormValue("Image"),
+			Id:          request.FormValue("Id"),
+			Name:        request.FormValue("Name"),
+			Category:    request.FormValue("Category"),
+			Price:       price,
+			Description: request.FormValue("Description"),
+			Image:       request.FormValue("Image"),
 		}
 
 		byteData, err := os.ReadFile(storage_path)
@@ -97,7 +105,41 @@ func AddItem(response http.ResponseWriter, request *http.Request) {
 			}
 		}
 		response.WriteHeader(http.StatusNotFound)
-
 		fmt.Fprintln(response, "Data is not found")
+	default:
+		response.WriteHeader(http.StatusMethodNotAllowed)
 	}
+}
+
+func ShowSelectedItem(response http.ResponseWriter, request *http.Request) {
+	if request.Method != http.MethodGet {
+		response.WriteHeader(http.StatusMethodNotAllowed)
+		return
+	}
+	var data []Item
+	var selectedData []Item
+
+	file_path := "./assets/item_list.json"
+	file, errReadFile := os.ReadFile(file_path)
+	if errReadFile != nil {
+		response.WriteHeader(http.StatusNotFound)
+	}
+	json.Unmarshal(file, &data)
+	fmt.Println(data)
+
+	query_cat := request.URL.Query().Get("Category")
+	query_price, _ := strconv.ParseFloat(request.URL.Query().Get("Price"), 64)
+	query_priceGreater, _ := strconv.ParseBool(request.URL.Query().Get("PriceGreater"))
+
+	for i, v := range data {
+		if v.Category == query_cat {
+			if (query_priceGreater) && (v.Price > query_price) {
+				selectedData = append(selectedData, data[i])
+			} else if (!query_priceGreater) && (v.Price < query_price) {
+				selectedData = append(selectedData, data[i])
+			}
+		}
+	}
+	fmt.Println(selectedData)
+	fmt.Fprintln(response, selectedData)
 }

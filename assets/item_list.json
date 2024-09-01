@@ -1,32 +1,50 @@
 [
   {
-   "id": "id1",
-   "name": "name1",
-   "description": "desc1",
-   "picture_link": "link1"
+   "id": "Id1",
+   "name": "Buku Catatan",
+   "category": "Books",
+   "price": 20000,
+   "description": "Ini adalah buku catatan yang murah",
+   "picture_link": "topokedia.com/book/bukucatatanas90m80d12m0k.png"
   },
   {
-   "id": "id2",
-   "name": "name2updated",
-   "description": "desc2updated",
-   "picture_link": "link2"
+   "id": "Id2",
+   "name": "Novel Pemadam Kebakaran Tiga Roda",
+   "category": "Books",
+   "price": 70000,
+   "description": "Novel yang berceritakan kisah pemadam kebakaran, tapi mobilnya roda tiga",
+   "picture_link": "topokedia.com/books/pemadamkebakaranrodatigaaosudn09120en8013.png"
   },
   {
-   "id": "id3",
-   "name": "name3updated",
-   "description": "desc3updated",
-   "picture_link": "link3"
+   "id": "Id3",
+   "name": "Baju seragam OSIS SMA",
+   "category": "School",
+   "price": 140000,
+   "description": "Baju seragam kualitasnya biasa aja",
+   "picture_link": "topokedia.com/schools/bajuseragamosissmaa90s8dm0981n2301.png"
   },
   {
-   "id": "id4",
-   "name": "name4updated",
-   "description": "description4updated",
-   "picture_link": "link4"
+   "id": "Id4",
+   "name": "Tongkat Pramuka 10 meter",
+   "category": "School",
+   "price": 200000,
+   "description": "Tongkat pramuka ini panjangnya 10 meter, potong sendiri",
+   "picture_link": "topokedia.com/schools/tongkatpramuka10meterhahahas0982103n1h02.png"
   },
   {
-   "id": "id5",
-   "name": "name5updated",
-   "description": "description5updated",
-   "picture_link": "link5updated"
+   "id": "Id5",
+   "name": "Pensil 1/4B",
+   "category": "School",
+   "price": 2000,
+   "description": "ini adalah pensil tp seperempat B doang",
+   "picture_link": "topokedia.com/schools/pensilsemperempatbhahahaasnu90d890128n.png"
+  },
+  {
+   "id": "Id6",
+   "name": "Topi Sheepboy",
+   "category": "Fashion",
+   "price": 170000,
+   "description": "Topi gokil kaya american american gitu",
+   "picture_link": "topokedia.com/schools/topisheepboyasd9uom129on123.png"
   }
  ]

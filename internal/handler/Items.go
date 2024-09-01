@@ -85,7 +85,7 @@ func AddItem(response http.ResponseWriter, request *http.Request) {
 			if item.Id == currentData.Id {
 				if item == currentData {
 					fmt.Println("There is no update, the previous and the new are the same.")
-					response.WriteHeader(http.StatusNotFound)
+					response.WriteHeader(http.StatusNoContent)
 					return
 				}
 				itemList[i] = item
@@ -98,6 +98,5 @@ func AddItem(response http.ResponseWriter, request *http.Request) {
 		response.WriteHeader(http.StatusNotFound)
 
 		fmt.Fprintln(response, "Data is not found")
-		fmt.Println("Sampe sini ga ya")
 	}
 }

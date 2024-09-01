@@ -92,6 +92,7 @@ func AddItem(response http.ResponseWriter, request *http.Request) {
 				data, _ := json.MarshalIndent(itemList, " ", " ")
 				file, _ := os.OpenFile(storage_path, os.O_RDWR, 0644)
 				file.Write(data)
+				fmt.Fprintln(response, "Succesfully update the data!")
 				return
 			}
 		}

@@ -2,6 +2,7 @@ package handler
 
 import (
 	"net/http"
+	"os"
 	"time"
 
 	"github.com/julienschmidt/httprouter"
@@ -23,16 +24,25 @@ type Account struct {
 }
 
 func AddAccount(response http.ResponseWriter, request *http.Request, _ httprouter.Params) {
-	data := Account{
-		Id:       request.FormValue("Id"),
-		Username: request.FormValue("Username"),
-		Fullname: name{
-			FirstName: request.FormValue("FirstName"),
-			LastName:  request.FormValue("LastName"),
-		},
-		RegisteredAt: time.Now(),
-		UpdatedAt:    time.Now(),
+	accountsProfilePath := "./assets/accounts_profile.json"
+	_, err := os.Stat(accountsProfilePath)
+	if os.IsNotExist(err) {
+		file, err := os.Create(accountsProfilePath)
+		if err != nil {
+			defer file.Close()
+		}
+		defer file.Close()
 	}
+	// data := Account{
+	// 	Id:       request.FormValue("Id"),
+	// 	Username: request.FormValue("Username"),
+	// 	Fullname: name{
+	// 		FirstName: request.FormValue("FirstName"),
+	// 		LastName:  request.FormValue("LastName"),
+	// 	},
+	// 	RegisteredAt: time.Now(),
+	// 	UpdatedAt:    time.Now(),
+	// }
 }
 
 func ShowAccount(response http.ResponseWriter, request *http.Request, _ httprouter.Params) {

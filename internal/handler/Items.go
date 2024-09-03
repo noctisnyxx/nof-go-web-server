@@ -17,6 +17,12 @@ type Item struct {
 	Image       string  `json:"picture_link"`
 }
 
+type BodyMessage struct {
+	StatusCode int    `json:"status"`
+	Message    string `json:"message"`
+	Data       Item   `json:"data"`
+}
+
 var itemList []Item
 
 func AddItem(response http.ResponseWriter, request *http.Request) {
@@ -34,6 +40,7 @@ func AddItem(response http.ResponseWriter, request *http.Request) {
 	}
 	switch request.Method {
 	case http.MethodPost:
+		response.Header().Set("Content-Type", "application/json")
 		price, _ := strconv.ParseFloat(request.FormValue("Price"), 64)
 		item := Item{
 			Id:          request.FormValue("Id"),
@@ -51,11 +58,15 @@ func AddItem(response http.ResponseWriter, request *http.Request) {
 			return
 		}
 		json.Unmarshal(byteData, &itemList)
-
 		for _, currentData := range itemList {
 			if item.Id == currentData.Id {
-				response.WriteHeader(http.StatusConflict)
-				fmt.Fprintln(response, "same Id is not allowed")
+				bodyMessage := BodyMessage{
+					StatusCode: http.StatusBadRequest,
+					Message:    http.StatusText(http.StatusBadRequest) + ": Unable to add the same item",
+				}
+				response.WriteHeader(http.StatusBadRequest)
+				jsonbodyMessage, _ := json.Marshal(bodyMessage)
+				response.Write(jsonbodyMessage)
 				return
 			}
 		}

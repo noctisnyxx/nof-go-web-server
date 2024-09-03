@@ -1,46 +1,6 @@
 [
   {
    "id": "Id1",
-   "name": "Buku Catatan",
-   "category": "Books",
-   "price": 20000,
-   "description": "Ini adalah buku catatan yang murah",
-   "picture_link": "topokedia.com/book/bukucatatanas90m80d12m0k.png"
-  },
-  {
-   "id": "Id2",
-   "name": "Novel Pemadam Kebakaran Tiga Roda",
-   "category": "Books",
-   "price": 70000,
-   "description": "Novel yang berceritakan kisah pemadam kebakaran, tapi mobilnya roda tiga",
-   "picture_link": "topokedia.com/books/pemadamkebakaranrodatigaaosudn09120en8013.png"
-  },
-  {
-   "id": "Id3",
-   "name": "Baju seragam OSIS SMA",
-   "category": "School",
-   "price": 140000,
-   "description": "Baju seragam kualitasnya biasa aja",
-   "picture_link": "topokedia.com/schools/bajuseragamosissmaa90s8dm0981n2301.png"
-  },
-  {
-   "id": "Id4",
-   "name": "Tongkat Pramuka 10 meter",
-   "category": "School",
-   "price": 200000,
-   "description": "Tongkat pramuka ini panjangnya 10 meter, potong sendiri",
-   "picture_link": "topokedia.com/schools/tongkatpramuka10meterhahahas0982103n1h02.png"
-  },
-  {
-   "id": "Id5",
-   "name": "Pensil 1/4B",
-   "category": "School",
-   "price": 2000,
-   "description": "ini adalah pensil tp seperempat B doang",
-   "picture_link": "topokedia.com/schools/pensilsemperempatbhahahaasnu90d890128n.png"
-  },
-  {
-   "id": "Id6",
    "name": "Topi Sheepboy",
    "category": "Fashion",
    "price": 170000,

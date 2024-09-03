@@ -34,21 +34,20 @@ func AddItem(response http.ResponseWriter, request *http.Request, _ httprouter.P
 				Data:   nil,
 			})
 			response.Write(jsonrespBody)
-			defer file.Close()
 			return
 		}
-
+		defer file.Close()
 		jsonrespBody, _ := json.Marshal(structs.HttpResp{
 			Status: strconv.Itoa(http.StatusOK) + ":" + http.StatusText(http.StatusOK),
 			Data:   nil,
 		})
 		response.Write(jsonrespBody)
-		defer file.Close()
 	}
+
 	byteData, err := os.ReadFile(storage_path)
 	if err != nil {
 		fmt.Println(err.Error())
-		response.WriteHeader(http.StatusInternalServerError)
+		response.WriteHeader(http.StatusInternalServerError) //
 		return
 	}
 	price, _ := strconv.ParseFloat(request.FormValue("Price"), 64)
@@ -66,8 +65,8 @@ func AddItem(response http.ResponseWriter, request *http.Request, _ httprouter.P
 		if item.Id == currentData.Id {
 			response.WriteHeader(http.StatusBadRequest)
 			jsonrespBody, _ := json.Marshal(structs.HttpResp{
-				Status: string(http.StatusBadRequest) + ":" + http.StatusText(http.StatusBadRequest),
-				Data:   nil,
+				Status: strconv.Itoa(http.StatusOK) + ": The same ID has founded",
+				Data:   item.Id,
 			})
 			response.Write(jsonrespBody)
 			return
@@ -78,7 +77,7 @@ func AddItem(response http.ResponseWriter, request *http.Request, _ httprouter.P
 	if err != nil {
 		response.WriteHeader(http.StatusInternalServerError)
 		jsonrespBody, _ := json.Marshal(structs.HttpResp{
-			Status: string(http.StatusBadRequest) + ":" + http.StatusText(http.StatusBadRequest),
+			Status: strconv.Itoa(http.StatusBadRequest) + ":" + http.StatusText(http.StatusBadRequest),
 			Data:   nil,
 		})
 		response.Write(jsonrespBody)
@@ -88,7 +87,9 @@ func AddItem(response http.ResponseWriter, request *http.Request, _ httprouter.P
 	itemList = append(itemList, item)
 	data, _ := json.MarshalIndent(itemList, " ", " ")
 	file.Write(data)
-
+	response.WriteHeader(http.StatusOK)
+	jsonrespBody, _ := json.Marshal(item)
+	response.Write(jsonrespBody)
 }
 
 func UpdateItem(response http.ResponseWriter, request *http.Request, _ httprouter.Params) {
@@ -135,7 +136,7 @@ func UpdateItem(response http.ResponseWriter, request *http.Request, _ httproute
 	for i, currentData := range itemList {
 		if item.Id == currentData.Id {
 			if item == currentData {
-				response.WriteHeader(http.StatusNoContent)
+				response.WriteHeader(http.StatusNoContent) //200SUCCESS
 				respBody, _ := json.Marshal(structs.HttpResp{
 					Status: strconv.Itoa(http.StatusNoContent) + ":" + http.StatusText(http.StatusNoContent),
 					Data:   item,

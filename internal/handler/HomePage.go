@@ -1,14 +1,18 @@
 package handler
 
 import (
-	"fmt"
+	"encoding/json"
 	"net/http"
+	"nof-go-web-server/internal/structs"
+
+	"github.com/julienschmidt/httprouter"
 )
 
-func ShowHomePage(response http.ResponseWriter, request *http.Request) {
-	fmt.Fprintf(response, "Welcome to the home page!")
-}
-
-func UpdateYourNameOnHomePage(response http.ResponseWriter, request *http.Request) {
-
+func ShowHomePage(response http.ResponseWriter, request *http.Request, _ httprouter.Params) {
+	bodyMessage := structs.HttpResp{
+		Status: http.StatusText(http.StatusOK),
+		Data:   "Welcome to homepage",
+	}
+	jsonBodyMessage, _ := json.Marshal(bodyMessage)
+	response.Write(jsonBodyMessage)
 }

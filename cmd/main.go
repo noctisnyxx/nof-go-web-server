@@ -16,6 +16,7 @@ func main() {
 	router.PUT("/shopkeeper/additem/", handler.UpdateItem)
 	router.GET("/user/showitem/", handler.ShowSelectedItem)
 	router.GET("/user/showitem/details/:id", handler.ShowItemDetails)
+	router.POST("/newschedule/", handler.NewSchedule)
 	// MuxHandler := http.NewServeMux()
 	// MuxHandler.HandleFunc("/showorder/", handler.ShowOrder)
 	// MuxHandler.HandleFunc("/makeorder/", handler.MakeANewOrder)

@@ -1,7 +1,5 @@
 package module
 
-import "strconv"
-
 type Switch struct {
 	Username  string `json:"user_name"`
 	Device    string `json:"device"`
@@ -16,20 +14,13 @@ type PowerMeterCond struct {
 }
 
 type ScheduleData struct {
-	ScheduleId  string          `json:"schedule_id"`
-	Group       string          `json:"group"`
-	TestMode    string          `json:"test_mode"`
-	Title       string          `json:"title"`
-	Start       string          `json:"start"`
-	Stop        string          `json:"stop"`
-	Description string          `json:"description"`
-	Switcher    *Switch         `json:"swtchrcond"`
-	PowerMeter  *PowerMeterCond `json:"pmcond"`
-}
-
-var scheduleIdNum int = 0
-
-func (scheduleData ScheduleData) GenerateScheduleId() string {
-	scheduleIdNum++
-	return strconv.Itoa(scheduleIdNum)
+	ScheduleId  string          `json:"schedule_id" bson:"schedule_id"`
+	Group       string          `json:"group" bson:"group"`
+	TestMode    string          `json:"test_mode" bson:"test_mode"`
+	Title       string          `json:"title" bson:"title"`
+	Start       string          `json:"start" bson:"start"`
+	Stop        string          `json:"stop" bson:"stop"`
+	Description string          `json:"description" bson:"description"`
+	Switcher    *Switch         `json:"swtchrcond" bson:"swtchrcond"`
+	PowerMeter  *PowerMeterCond `json:"pmcond" bson:"pmcond"`
 }

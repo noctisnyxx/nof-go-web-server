@@ -1,35 +1,36 @@
 package handler
 
 import (
-	"encoding/json"
-	"io"
 	"net/http"
 	"nof-go-web-server/internal/module"
+	"nof-go-web-server/internal/module/database"
+	"nof-go-web-server/internal/module/envs"
 
 	"github.com/julienschmidt/httprouter"
+	"go.mongodb.org/mongo-driver/v2/mongo/options"
 )
 
 func NewSchedule(response http.ResponseWriter, request *http.Request, _ httprouter.Params) {
-	response.Header().Set("Content-Type", "application/json")
-	respBody := module.HttpBody{Status: http.StatusOK}
-	data := new(module.ScheduleData)
-	data.ScheduleId = data.GenerateScheduleId()
-	body, err := io.ReadAll(request.Body)
-	if err != nil {
-		respBody.Status = http.StatusInternalServerError
-		jsonRespBody, _ := json.Marshal(respBody)
-		response.WriteHeader(respBody.Status)
-		response.Write(jsonRespBody)
-		return
+	res := module.HttpBody{
+		Status: http.StatusOK,
+		Data:   "Success to add a new schedule!",
 	}
-	json.Unmarshal(body, &data)
-	respBody.Data = data
-	jsonRespBody, err := json.Marshal(respBody)
+	db := new(database.Mongo)
+	err := db.Connect(envs.MONGO_ATLAS)
 	if err != nil {
-		respBody.Status = http.StatusInternalServerError
-		return
+		res.Status = http.StatusInternalServerError
+		res.Data = "Unable to connect to the database"
 	}
-	response.Write(jsonRespBody)
+	newSch, err := module.HttpRequestBodyJsonReader(request)
+	if err != nil {
+		res.Status = http.StatusInternalServerError
+		res.Data = "Failed to read the json request body"
+	}
+	col := db.Client.Database("DQAHotroom").Collection("Schedules")
+	if _, err := col.InsertOne(db.Context, newSch, options.InsertOne()); err != nil {
+		res.Status = http.StatusInternalServerError
+		res.Data = "Failed to add to the database"
+	}
 
 }
 

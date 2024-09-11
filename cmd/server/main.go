@@ -17,14 +17,7 @@ func main() {
 	router.GET("/user/showitem/", handler.ShowSelectedItem)
 	router.GET("/user/showitem/details/:id", handler.ShowItemDetails)
 	router.POST("/newschedule/", handler.NewSchedule)
-	// MuxHandler := http.NewServeMux()
-	// MuxHandler.HandleFunc("/showorder/", handler.ShowOrder)
-	// MuxHandler.HandleFunc("/makeorder/", handler.MakeANewOrder)
-	// MuxHandler.HandleFunc("/", handler.ShowHomePage)
-	// MuxHandler.HandleFunc("/reqhandlertest/", handler.ShowRequestTestHandler)
-	// MuxHandler.HandleFunc("/shopkeeper/additem/", handler.AddItem)
-	// MuxHandler.HandleFunc("/user/showitem/", handler.ShowSelectedItem)
-
+	router.GET("/showschedule/", handler.ShowSchedule)
 	webServer := http.Server{
 		Addr:    ":8080",
 		Handler: router,

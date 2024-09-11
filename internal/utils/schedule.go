@@ -1,4 +1,6 @@
-package module
+package utils
+
+import "time"
 
 type Switch struct {
 	Username  string `json:"user_name"`
@@ -14,12 +16,15 @@ type PowerMeterCond struct {
 }
 
 type ScheduleData struct {
+	CreatedAt   time.Time       `json:"created_at" bson:"created_at"`
+	UpdatedAt   time.Time       `json:"updated_at" bson:"updated_at"`
 	ScheduleId  string          `json:"schedule_id" bson:"schedule_id"`
 	Group       string          `json:"group" bson:"group"`
 	TestMode    string          `json:"test_mode" bson:"test_mode"`
 	Title       string          `json:"title" bson:"title"`
-	Start       string          `json:"start" bson:"start"`
-	Stop        string          `json:"stop" bson:"stop"`
+	Status      string          `json:"status" bson:"status"`
+	Start       time.Time       `json:"start" bson:"start"`
+	End         time.Time       `json:"end" bson:"end"`
 	Description string          `json:"description" bson:"description"`
 	Switcher    *Switch         `json:"swtchrcond" bson:"swtchrcond"`
 	PowerMeter  *PowerMeterCond `json:"pmcond" bson:"pmcond"`

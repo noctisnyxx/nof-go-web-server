@@ -19,7 +19,6 @@ type Mongo struct {
 func (m *Mongo) Connect(uri string) error {
 	var err error
 	m.Context, m.Cancel = context.WithTimeout(context.Background(), 2*time.Second)
-	defer m.Cancel()
 	if m.Client, err = mongo.Connect(options.Client().ApplyURI(uri)); err != nil {
 		return fmt.Errorf("failed to connect: %s", err.Error())
 	}
@@ -27,5 +26,16 @@ func (m *Mongo) Connect(uri string) error {
 	if err = m.Client.Ping(m.Context, readpref.Primary()); err != nil {
 		return fmt.Errorf("failed to connect: %s", err.Error())
 	}
+	return nil
+}
+
+func (m *Mongo) CloseClientDB() error {
+	if m.Client == nil {
+		return nil
+	}
+	if err := m.Client.Disconnect(m.Context); err != nil {
+		return fmt.Errorf("failed to disconnect the client with the database: %s", err.Error())
+	}
+	fmt.Println("The client is already disconnected")
 	return nil
 }

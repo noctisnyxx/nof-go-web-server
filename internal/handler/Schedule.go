@@ -99,7 +99,7 @@ func EditSchedule(writer http.ResponseWriter, request *http.Request, params http
 		return
 	}
 	if newSchd.Status != storedData.Status {
-		res.UpdateHttpResponse(writer, http.StatusBadRequest, "Unable to change restriced value(s): Test Mode")
+		res.UpdateHttpResponse(writer, http.StatusBadRequest, "Unable to change restriced value(s): Status") //initiating, running, pause, abort, finished
 		return
 	}
 	if newSchd.CreatedAt != storedData.CreatedAt {
@@ -211,6 +211,8 @@ func ShowSchedule(writer http.ResponseWriter, request *http.Request, params http
 	} else if sort_end == "desc" {
 		sort["end"] = -1
 	}
+
+	//CREATE AGREGATE
 
 	if query_status := request.URL.Query().Get("status"); query_status != "" {
 		filter["status"] = query_status

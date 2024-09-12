@@ -1,7 +1,6 @@
 package handler
 
 import (
-	"fmt"
 	"net/http"
 	"nof-go-web-server/internal/database"
 	"nof-go-web-server/internal/utils"
@@ -53,7 +52,6 @@ func NewSchedule(writer http.ResponseWriter, request *http.Request, _ httprouter
 	col := db.Client.Database("DQAHotroom").Collection("Schedules")
 	if _, err := col.InsertOne(db.Context, newSch, options.InsertOne()); err != nil {
 		res.UpdateHttpResponse(writer, http.StatusInternalServerError, "Failed to add the data to the database")
-		fmt.Println(err)
 		return
 	}
 	res.UpdateHttpResponse(writer, res.Status, res.Data)
@@ -109,43 +107,49 @@ func ShowSchedule(writer http.ResponseWriter, request *http.Request, params http
 	db := new(database.Mongo)
 	if err := db.Connect(envs.MONGO_ATLAS); err != nil {
 		res.UpdateHttpResponse(writer, http.StatusInternalServerError, "failed to connect to the database")
-		fmt.Println(err)
+		return
 	}
 	col := db.Client.Database("DQAHotroom").Collection("Schedules")
 	filter := bson.M{}
 	sort := bson.M{}
-	sort_title := request.URL.Query().Get("sort_title")
-	if sort_title == "asc" {
+
+	if sort_title := request.URL.Query().Get("sort_title"); sort_title == "asc" {
 		sort["title"] = 1
 	} else if sort_title == "desc" {
 		sort["title"] = -1
 	}
-	sort_status := request.URL.Query().Get("sort_status")
-	if sort_status == "asc" {
+
+	if sort_status := request.URL.Query().Get("sort_status"); sort_status == "asc" {
 		sort["status"] = 1
 	} else if sort_status == "desc" {
 		sort["status"] = -1
 	}
-	sort_testmode := request.URL.Query().Get("sort_testmode")
-	if sort_testmode == "asc" {
+
+	if sort_testmode := request.URL.Query().Get("sort_testmode"); sort_testmode == "asc" {
 		sort["test_mode"] = 1
 	} else if sort_testmode == "desc" {
 		sort["test_mode"] = -1
 	}
-	sort_group := request.URL.Query().Get("sort_group")
-	if sort_group == "asc" {
+
+	if sort_group := request.URL.Query().Get("sort_group"); sort_group == "asc" {
 		sort["group"] = 1
 	} else if sort_group == "desc" {
 		sort["group"] = -1
 	}
-	sort_start := request.URL.Query().Get("sort_start")
-	if sort_start == "asc" {
+
+	if sort_createdat := request.URL.Query().Get("sort_createdat"); sort_createdat == "asc" {
+		sort["created_at"] = 1
+	} else if sort_createdat == "desc" {
+		sort["created_at"] = -1
+	}
+
+	if sort_start := request.URL.Query().Get("sort_start"); sort_start == "asc" {
 		sort["start"] = 1
 	} else if sort_start == "desc" {
 		sort["start"] = -1
 	}
-	sort_end := request.URL.Query().Get("sort_end")
-	if sort_end == "asc" {
+
+	if sort_end := request.URL.Query().Get("sort_end"); sort_end == "asc" {
 		sort["end"] = 1
 	} else if sort_end == "desc" {
 		sort["end"] = -1
@@ -163,6 +167,12 @@ func ShowSchedule(writer http.ResponseWriter, request *http.Request, params http
 	if query_group := request.URL.Query().Get("group"); query_group != "" {
 		filter["group"] = query_group
 	}
+	if query_createdat := request.URL.Query().Get("created_at"); query_createdat != "" {
+		filter["created_at"] = query_createdat
+	}
+	if query_updatedat := request.URL.Query().Get("updated_at"); query_updatedat != "" {
+		filter["updated_at"] = query_updatedat
+	}
 	if query_start := request.URL.Query().Get("start_date"); query_start != "" {
 		filter["start"] = query_start
 	}
@@ -174,7 +184,6 @@ func ShowSchedule(writer http.ResponseWriter, request *http.Request, params http
 	cursor, err := col.Find(db.Context, filter, opts)
 	if err != nil {
 		res.UpdateHttpResponse(writer, http.StatusInternalServerError, "failed to make a query")
-		fmt.Println(err)
 		return
 	}
 	defer cursor.Close(db.Context)
@@ -182,10 +191,8 @@ func ShowSchedule(writer http.ResponseWriter, request *http.Request, params http
 	var results []bson.M
 	if err := cursor.All(db.Context, &results); err != nil {
 		res.UpdateHttpResponse(writer, http.StatusInternalServerError, "failed to decode documents")
-		fmt.Println(err)
 		return
 	}
-	fmt.Println(results)
 	res.Data = results
 	res.UpdateHttpResponse(writer, res.Status, res.Data)
 }

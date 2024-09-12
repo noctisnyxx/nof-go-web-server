@@ -12,12 +12,10 @@ func main() {
 	//handler function hanya dapat satu endpoint saja, untuk multiple dapat menggunakan ServeMux
 	router := httprouter.New()
 	router.GET("/", handler.ShowHomePage)
-	router.POST("/shopkeeper/additem/", handler.AddItem)
-	router.PUT("/shopkeeper/additem/", handler.UpdateItem)
-	router.GET("/user/showitem/", handler.ShowSelectedItem)
-	router.GET("/user/showitem/details/:id", handler.ShowItemDetails)
-	router.POST("/newschedule/", handler.NewSchedule)
-	router.GET("/showschedule/", handler.ShowSchedule)
+	router.POST("/schedules", handler.NewSchedule)
+	router.GET("/schedules", handler.ShowSchedule)
+	router.PUT("/schedules/:schedule-id", handler.EditSchedule)
+	router.DELETE("/schedules/:schedule-id", handler.DeleteSchedule)
 	webServer := http.Server{
 		Addr:    ":8080",
 		Handler: router,

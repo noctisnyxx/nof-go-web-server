@@ -23,6 +23,7 @@ func (res ResponseBody) UpdateHttpResponse(writer http.ResponseWriter, newStatus
 		http.Error(writer, "Failed to encode to json file", http.StatusInternalServerError)
 		return
 	}
+	writer.WriteHeader(body.Status)
 	writer.Write(byteBody)
 }
 

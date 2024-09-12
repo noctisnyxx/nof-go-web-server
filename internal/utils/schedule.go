@@ -1,18 +1,20 @@
 package utils
 
-import "time"
+import (
+	"time"
+)
 
 type Switch struct {
-	Username  string `json:"user_name"`
-	Device    string `json:"device"`
-	DeviceId  int    `json:"device_id"`
-	CommandId int    `json:"command_id"`
+	Username  string `json:"user_name" bson:"user_name"`
+	Device    string `json:"device" bson:"device"`
+	DeviceId  int    `json:"device_id" bson:"device_id"`
+	CommandId int    `json:"command_id" bson:"command_id"`
 }
 
 type PowerMeterCond struct {
-	I_A float64 `json:"i_a"`
-	V_A float64 `json:"v_a"`
-	KWA float64 `json:"kw_a"`
+	I_A float64 `json:"i_a" bson:"i_a"`
+	V_A float64 `json:"v_a" bson:"v_a"`
+	KWA float64 `json:"kw_a" bson:"kw_a"`
 }
 
 type ScheduleData struct {
